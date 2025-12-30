@@ -1,0 +1,19 @@
+{
+    "name": "appkit/http-mapper",
+    "type": "library",
+    "description": "HTTP path prefix mapper for the AppKit framework",
+    "license": "MIT",
+    "require": {
+        "appkit/health": "^1.0",
+        "appkit/http": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AppKit\\Http\\Server\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}
