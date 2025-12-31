@@ -38,7 +38,7 @@ class MapperResource extends AbstractHttpResource implements HealthIndicatorInte
     }
 
     protected function handleRequest($request) {
-        [$resource, $path] = $this -> mapper -> resolveRequest($request);
+        [$resource, $path] = $this -> mapper -> matchRequest($request);
 
         if($path != '/') {
             $uri = $request -> getUri();

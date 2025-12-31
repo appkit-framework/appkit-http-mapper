@@ -21,7 +21,7 @@ class HttpMapper {
         return $this -> mappings;
     }
 
-    public function resolveRequest($request) {
+    public function matchRequest($request) {
         $requestPath = $request -> getUri() -> getPath();
 
         foreach($this -> mappings as $path => $handler) {
