@@ -5,8 +5,8 @@ namespace AppKit\Http\Server\Resource\Mapper;
 use AppKit\Http\Server\Mapper\HttpMapper;
 
 use AppKit\Http\Server\Resource\AbstractHttpResource;
-use AppKit\Http\Message\HttpError;
-use AppKit\Http\Message\HttpRedirect;
+use AppKit\Http\Server\Message\ServerHttpError;
+use AppKit\Http\Server\Message\ServerHttpRedirect;
 use AppKit\Http\Server\Message\AbsoluteHttpRedirect;
 use AppKit\Health\HealthIndicatorInterface;
 
@@ -28,7 +28,7 @@ class MapperResource extends AbstractHttpResource {
     protected function handleRequest($request) {
         [$matched, $resource, $path] = $this -> mapper -> matchRequest($request);
         if(!$matched)
-            throw new HttpError(404);
+            throw new ServerHttpError(404);
 
         if($path != '/') {
             $requestPath = substr($request -> getPath(), strlen($path));
@@ -42,12 +42,12 @@ class MapperResource extends AbstractHttpResource {
             return $resource -> dispatchRequest($request);
         } catch(AbsoluteHttpRedirect $e) {
             throw $e;
-        } catch(HttpRedirect $e) {
+        } catch(ServerHttpRedirect $e) {
             $location = $e -> getLocation();
             if(str_starts_with($location, '/')) {
-                throw new HttpRedirect(
+                throw new ServerHttpRedirect(
                     $path . $location,
-                    $e -> getStatus(),
+                    $e -> getResponse() -> getStatus(),
                     previous: $e
                 );
             }
