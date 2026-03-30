@@ -30,13 +30,12 @@ class MapperResource extends AbstractHttpResource {
         if(!$matched)
             throw new ServerHttpError(404);
 
-        if($path != '/') {
-            $requestPath = substr($request -> getPath(), strlen($path));
-            if($requestPath == '')
-                $requestPath = '/';
+        if($path == '/')
+            return $resource -> dispatchRequest($request);
 
-            $request -> rewritePath($requestPath);
-        }
+        $request -> rewritePath(
+            substr($request -> getPath(), strlen($path))
+        );
 
         try {
             return $resource -> dispatchRequest($request);
@@ -44,6 +43,7 @@ class MapperResource extends AbstractHttpResource {
             throw $e;
         } catch(ServerHttpRedirect $e) {
             $location = $e -> getLocation();
+
             if(str_starts_with($location, '/')) {
                 throw new ServerHttpRedirect(
                     $path . $location,
