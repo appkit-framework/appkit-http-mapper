@@ -27,11 +27,12 @@ class MapperResource extends AbstractHttpResource {
 
     protected function handleRequest($request) {
         [$match, $resource, $path] = $this -> mapper -> matchRequest($request);
+        $requestPath = $request -> getPath();
 
         $this -> log -> debug(
             'Matched request',
             [
-                'requestPath' => $request -> getPath(),
+                'requestPath' => $requestPath,
                 'match' => $match,
                 'resource' => $resource !== null ? get_class($resource) : null,
                 'path' => $path
@@ -44,7 +45,6 @@ class MapperResource extends AbstractHttpResource {
         if($path == '/')
             return $resource -> dispatchRequest($request);
 
-        $requestPath = $request -> getPath();
         $rewritePath = substr($requestPath, strlen($path));
         $request -> rewritePath($rewritePath);
         $this -> log -> debug(
