@@ -48,7 +48,7 @@ class MapperResource extends AbstractHttpResource {
         $rewritePath = substr($requestPath, strlen($path));
         $request -> rewritePath($rewritePath);
         $this -> log -> debug(
-            'Rewritten request path {requestPath} to {rewritePath}',
+            'Rewritten request path "{requestPath}" to "{rewritePath}"',
             [
                 'requestPath' => $requestPath,
                 'rewritePath' => $rewritePath
@@ -66,7 +66,7 @@ class MapperResource extends AbstractHttpResource {
                 $rewriteLocation = $path . $location;
 
                 $this -> log -> debug(
-                    'Rewritten redirect location {location} to {rewriteLocation}',
+                    'Rewritten redirect location "{location}" to "{rewriteLocation}"',
                     [
                         'location' => $location,
                         'rewriteLocation' => $rewriteLocation
